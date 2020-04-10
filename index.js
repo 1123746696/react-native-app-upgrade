@@ -8,6 +8,7 @@ import {
 const RNUpgrade = NativeModules.upgrade;
 const ANDROID_PLATFORM = Platform.OS === 'android';
 
+
 function handlerVersionString(version) {
     let versions = version.split('.');
     let number = 0;
@@ -25,7 +26,7 @@ function handlerVersionString(version) {
  * @param version  本地版本
  */
 export async function checkUpdate(appId, version) {
-    if (ANDROID_PLATFORM) {
+    if (!ANDROID_PLATFORM) {
         try {
             const response = await fetch(
                 `https://itunes.apple.com/cn/lookup?id=${appId}&t=${Date.now()}`
@@ -65,7 +66,7 @@ export async function checkUpdate(appId, version) {
  */
 export const upgrade = (apkUrl) => {
     if (ANDROID_PLATFORM) {
-        RNUpgrade.upgrade(apkUrl);
+        RNUpgrade.upgrade(apkUrl)
     }
 };
 /**
@@ -82,8 +83,8 @@ export const openAPPStore = (appid) => {
  * android apk下载回调
  * @param callBack
  */
-export const addDownLoadListener = (callBack) => {
+export const addDownListener = (callBack) => {
     if (ANDROID_PLATFORM) {
-        return DeviceEventEmitter.addListener('LOAD_PROGRESS', callBack);
+        return DeviceEventEmitter.addListener('LOAD_PROGRESS', callBack)
     }
 };
